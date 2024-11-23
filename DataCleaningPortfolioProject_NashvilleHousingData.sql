@@ -6,10 +6,10 @@ DATA CLEANING PORTFOLIO PROJECT
 SELECT *
 FROM PortfolioProject.dbo.NashvilleHousingData_V3
 
---Populate Property Address Data
+-- Populate Property Address Data
 SELECT *
 FROM PortfolioProject..NashvilleHousingData
---WHERE PropertyAddress IS NULL
+-- WHERE PropertyAddress IS NULL
 ORDER BY ParcelID
 
 
@@ -19,7 +19,7 @@ FROM PortfolioProject..NashvilleHousingData
 WHERE LandUse = 'Single Family'
 AND SalePrice > 400000
 
---We want to get all the property addresses that are null and have the same parcel ID
+--We want to get all the property addresses that are NULL and have the same ParcelID
 SELECT a.ParcelID, a.PropertyAddress, b.ParcelID, b.PropertyAddress, ISNULL (a.PropertyAddress, b.PropertyAddress)
 FROM PortfolioProject..NashvilleHousingData a
 JOIN PortfolioProject..NashvilleHousingData b
@@ -27,7 +27,7 @@ JOIN PortfolioProject..NashvilleHousingData b
 	AND a.[UniqueID] <> b.[UniqueID]
 WHERE a.PropertyAddress IS NULL
 
---when using "update" function, must use the alias
+--When using "UPDATE", must use the alias
 UPDATE a
 SET PropertyAddress = ISNULL(a.PropertyAddress,b.PropertyAddress)
 FROM PortfolioProject..NashvilleHousingData a
@@ -43,7 +43,7 @@ CityExtracted = SUBSTRING(PropertyAddress, LEN(PropertyAddress),CHARINDEX(' ', P
 FROM PortfolioProject..NashvilleHousingData
 
 
---After Trimming Property Address, seperate out the City to a new column
+--After Trimming Property Address, separate out the City to a new column
 SELECT TrimmedPropAddress,
 CityExtracted = SUBSTRING(TrimmedPropAddress, CHARINDEX(',', TrimmedPropAddress)+1, LEN(TrimmedPropAddress))
 FROM PortfolioProject.dbo.NashvilleHousingData_V3
@@ -61,7 +61,6 @@ PropAddressExtracted = LEFT (TrimmedPropAddress, CHARINDEX(',', TrimmedPropAddre
 FROM PortfolioProject.dbo.NashvilleHousingData_V3
 
 --Length of PropertyAddress
-
 SELECT lengthofcolumn = LEN(PropertyAddress)
 FROM PortfolioProject.dbo.NashvilleHousingData_V3
 
@@ -133,7 +132,7 @@ FROM PortfolioProject.dbo.NashvilleHousingData_V3
 ORDER BY OwnerAddressCity desc
 
 
---Since that looks good, add the new columns to our table
+--Since that looks good, add the new columns to the table
 
 --Add OwnerAddressState column
 ALTER TABLE NashvilleHousingData_V3
